@@ -2,7 +2,7 @@ from hoshino import Service
 
 sv = Service(
     "四则运算器",
-    help="""四则运算器\n
+    help_="""四则运算器\n
     计算群聊中的四则运算消息，并发送结果\n
     使用方法：直接发送四则运算公式；如"1+1\"""",
 )
