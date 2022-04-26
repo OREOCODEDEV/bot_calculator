@@ -1,5 +1,5 @@
 # 四则运算器
-基于HoshinoBot的四则运算器插件
+基于HoshinoBot的四则运算器插件，可以直接回复群聊消息中四则运算公式的结果
 # 安装
 1. 在HoshinoBot的插件目录modules下clone本项目
 1. 打开config文件夹中的__bot__.py文件，并在MODULES_ON中添加"bot_calculator"
