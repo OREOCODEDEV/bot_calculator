@@ -9,9 +9,11 @@ VALID_NUM_SET = set(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", " "]
 
 
 def check_message_valid(input_str):
-    if not set(input_str) - VALID_NUM_SET == set([]):
-        return False
     if set(input_str) & VALID_SYMBOL_SET == set([]):
+        # 至少包含一个四则运算符号
+        return False
+    if not set(input_str) - VALID_NUM_SET == set([]):
+        # 除了四则运算不能包含其它内容
         return False
     return True
 
