@@ -4,10 +4,16 @@ help_str = '计算群聊中的四则运算消息，并发送结果\n使用方法
 
 sv = Service("四则运算器", help_=help_str)
 
+VALID_SYMBOL_SET = set(["+", "-", "*", "/"])
+VALID_NUM_SET = set(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", " "]) | VALID_SYMBOL_SET
+
 
 def check_message_valid(input_str):
-    valid_str_set = set(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", ".", " "])
-    return True if set(input_str) - valid_str_set == set([]) else False
+    if not set(input_str) - VALID_NUM_SET == set([]):
+        return False
+    if set(input_str) & VALID_SYMBOL_SET == set([]):
+        return False
+    return True
 
 
 @sv.on_message()
