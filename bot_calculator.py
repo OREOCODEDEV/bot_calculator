@@ -39,5 +39,7 @@ def check_message_valid(input_str):
 async def calc_message(bot, ev):
     eval_msg = str(ev.message)
     if not check_message_valid(eval_msg):
+        # *安全警告：禁止禁用该消息有效性检查
+        # 禁用消息有效性检查后会导致eval注入
         return
     await bot.send(ev, f"= {eval(eval_msg)}")
