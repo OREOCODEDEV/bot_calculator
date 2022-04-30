@@ -1,4 +1,5 @@
 from hoshino import Service
+import re
 
 help_str = '计算群聊中的四则运算消息，并发送结果\n使用方法：直接发送四则运算公式；如"1+1"'
 
@@ -7,7 +8,7 @@ sv = Service("四则运算器", help_=help_str)
 VALID_SYMBOL_SET = {"+", "-", "*", "/"}
 VALID_NUM_SET = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."}
 VALID_ALL_SET = VALID_SYMBOL_SET | VALID_NUM_SET
-INVALID_SYMBOL = ["++", "--", "**", "//", "/0"]
+INVALID_PATTERN = r"[\+\-\*\/][\+\-\*\/0]+"
 EMPTY_SET = set()
 
 
@@ -21,9 +22,9 @@ def check_message_valid(input_str):
         # 除了四则运算不能包含其它内容
         return False
     # 绝大部分消息在之前都已被过滤，可以适当增加复杂判定
-    if {input_str[0]} & VALID_NUM_SET == EMPTY_SET:
+    if ({input_str[0]} - {"0"}) & VALID_NUM_SET == EMPTY_SET:
         if {input_str[0]} & {"+", "-"} == EMPTY_SET:
-            # 首位必须为数字或+-
+            # 首位必须为数字1-9或+-
             return False
         elif set(input_str[1:]) & VALID_SYMBOL_SET == EMPTY_SET:
             # 首位为+-时后续消息至少包含一个运算符号
@@ -31,10 +32,8 @@ def check_message_valid(input_str):
     if not {input_str[-1]} & VALID_SYMBOL_SET == EMPTY_SET:
         # 不能以运算符号结尾
         return False
-    for i in INVALID_SYMBOL:
-        # 禁用次方和开根;屏蔽非法符号
-        if not input_str.find(i) == -1:
-            return False
+    if re.search(INVALID_PATTERN, input_str):
+        return False
     return True
 
 
