@@ -5,7 +5,7 @@ help_str = '计算群聊中的四则运算消息，并发送结果\n使用方法
 sv = Service("四则运算器", help_=help_str)
 
 VALID_SYMBOL_SET = {"+", "-", "*", "/"}
-VALID_NUM_SET = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", " "}
+VALID_NUM_SET = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."}
 VALID_ALL_SET = VALID_SYMBOL_SET | VALID_NUM_SET
 
 
@@ -22,6 +22,9 @@ def check_message_valid(input_str):
         return False
     if not {input_str[-1]} & VALID_SYMBOL_SET == set():
         # 不能以运算符号结尾
+        return False
+    if not input_str.find("/0") == -1:
+        # 除零错误
         return False
     return True
 
